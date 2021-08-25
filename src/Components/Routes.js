@@ -70,11 +70,11 @@ function Routes() {
             <Nav />
             <Switch>
                 {/* <Route path = '/' exact render = {() => <Home homeData = {homeData} getHomeData = {getHomeData}/>}/>  */}
-                <Route path = '/' exact component = {Home}></Route> 
                 <Route path = '/AboutUs' component = {AboutUs}></Route> 
                 <Route path = '/Shop' component = {Shop}></Route> 
                 <Route path = '/Contact' component = {Contact}></Route> 
-                <Route path = '/:id' exact component = {Item}></Route> 
+                <Route path = '/:id' exact component = {Item}></Route>
+                <Route path = '/' exact component = {Home}></Route> 
             </Switch>
             </Router>
             {/* {state.openHome ? <Home /> : ''}
