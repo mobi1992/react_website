@@ -37,6 +37,12 @@
   }
 }
 
+@media (max-width: 576px) {
+  .responsive-content-cart-button {
+    font-size: 5vw;
+    font-weight : bold
+  }
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -3,9 +3,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimesCircle} from '@fortawesome/fontawesome-free-solid'
 import Cart from './Cart';
 function CartContainer({onCloseCart, items}) {
+    const [total, setTotal] = useState(0)
+    const cal_total = (itm_price) => {
+        setTotal(prevTotal => prevTotal + itm_price)
+    }
     const listItems = items.map(item => {
-        return <Cart item = {item}></Cart>
+        return <Cart cal_total = {cal_total} item = {item}></Cart>
     })
+ 
     return (
             <div className = 'row justify-content-center align-items-center' style = {{
                 position: 'fixed',
@@ -39,12 +44,32 @@ function CartContainer({onCloseCart, items}) {
                                 height : '300px'
                             }} className = 'col-lg-8 col-md-8'>
                                 {listItems}
+                            </div> 
+        
+                            <div className = 'col-lg-4 col-md-4'>
+                                <button className = 'responsive-content-cart-button btn muted btn-block'>Quick Cart</button>
+                                    <div class = 'row'>
+                                        <div className = 'col-6'>
+                                            <h2 className = 'text-center responsive-content-cart-button'>Total: </h2>
+                                        </div>
+                                        <div className = 'col-6'>
+                                            <h2 className = 'text-center responsive-content-cart-button'>{total} </h2>
+                                        </div>
+                                    </div>
+                                <button style = {{
+                                    backgroundColor : 'maroon',
+                                    color : 'white'
+                                }} className = 'responsive-content-cart-button btn btn-block'>Proceed to Checkout</button>
+                                <button style = {{
+                                    backgroundColor : 'maroon',
+                                    color : 'white'
+                                }} className = 'responsive-content-cart-button btn btn-block'>Continue Shopping</button>
+
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
-            
+        </div>
     )
 }
 

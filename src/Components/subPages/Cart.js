@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimesCircle} from '@fortawesome/fontawesome-free-solid'
-function Cart({item}) {
+function Cart({item, cal_total}) {
     const priceStyle = {
         color : '#5b18b0',
         fontWeight : 'bold',
@@ -13,7 +13,7 @@ function Cart({item}) {
 
     // Price of item to be added in the cart
     const [price, setPrice] = useState(parseInt(item.price))
-    
+
     const handleChange = (e) => {
         setQuantity(parseInt(e.target.value))
     }
@@ -24,8 +24,10 @@ function Cart({item}) {
     const decrementQuantity = () => {
         setQuantity(prevQuan => prevQuan - 1)
     }
+
     useEffect(() => {
         setPrice(quantity * parseInt(item.price))
+        cal_total(price)
     }, [quantity])
     return (
         <div>
