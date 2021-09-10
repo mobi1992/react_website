@@ -7,6 +7,8 @@ import Contact from './Pages/Contact'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import Nav from './Nav'
 import Item from './Pages/Item'
+import MainCartContainer from './Pages/MainCartContainer'
+import CheckOutForm from './Pages/CheckOutForm'
 // const initialState = {
 //     openHome : false,
 //     openAboutUs : false,
@@ -43,6 +45,7 @@ function Routes() {
         <Router>
             <Route path = '/' exact component = {Home}></Route> 
         </Router>
+        return () => console.log('unmounting...');
     }, [])
 
     // const clickHome = (e) => {
@@ -72,9 +75,11 @@ function Routes() {
                 {/* <Route path = '/' exact render = {() => <Home homeData = {homeData} getHomeData = {getHomeData}/>}/>  */}
                 <Route path = '/AboutUs' component = {AboutUs}></Route> 
                 <Route path = '/Shop' component = {Shop}></Route> 
-                <Route path = '/Contact' component = {Contact}></Route> 
+                <Route path = '/Contact' component = {Contact}></Route>
+                <Route path = '/Cart' component = {MainCartContainer}></Route>
+                <Route path = '/checkout' component = {CheckOutForm}></Route>
                 <Route path = '/:id' exact component = {Item}></Route>
-                <Route path = '/' exact component = {Home}></Route> 
+                <Route path = '/' exact component = {Home}></Route>
             </Switch>
             </Router>
             {/* {state.openHome ? <Home /> : ''}

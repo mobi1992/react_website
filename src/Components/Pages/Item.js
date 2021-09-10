@@ -1,15 +1,24 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import SizeChart from '../subPages/SizeChart'
 import CartContainer from '../subPages/CartContainer'
 import ItemPicture from '../subPages/ItemPicture'
+import { itemContext } from '../ParentComponent'
+ //export const qtyContext = React.createContext()
 function Item({match}) {
+    const context = useContext(itemContext)
     const [szChart, showSzChart] = useState(false)
     const [cart, showCart] = useState(false)
     const [itemPic, showItemPic] = useState(false)
     const [item, setItem] = useState({})
-    const [items, setItems] = useState([])
+    
+    // const [items, setItems] = useState([])
+    
+    // const [msg, setMsg] = useState('')
+
+    // Generate message if cart is empty or a new item is added
+    
     const priceStyle = {
         color : '#5b18b0',
         fontWeight : 'bold',
@@ -24,51 +33,93 @@ function Item({match}) {
         .then(res => {
             console.log(res.data)
             setItem(res.data)
+            context.setTheItem(res.data)
         })
         .catch(err => console.log(err))
         console.log(match)
+        
     }
 
     // Implementing Local storage data saving and data retrieving
-    const getItemsFromLS = () => {
-        let itms;
-        if(localStorage.getItem('itms') === null){
-            itms = []
-        } else {
-            itms = JSON.parse(localStorage.getItem('itms'))
-        }
-        console.log(itms)
-        return itms;
-    }
+    // const getItemsFromLS = () => {
+    //     let itms;
+    //     if(localStorage.getItem('itms') === null){
+    //         itms = []
+    //     } else {
+    //         itms = JSON.parse(localStorage.getItem('itms'))
+    //     }
+    //     console.log(itms)
+    //     return itms;
+    // }
 
-    const addItemtoLS = () => {
-        const itms = getItemsFromLS();
-        const itm = addItem()
-        // if there is item, push it to items array in LS
-        if(itm){
-            itms.push(itm);
-        }
-        localStorage.setItem('itms', JSON.stringify(itms))
-    }
+    // const addItemtoLS = () => {
+    //     const itms = getItemsFromLS();
+    //     const itm = addItem()
+    //     // if there is item, push it to items array in LS
+    //     if(itm){
+    //         itms.push(itm);
+    //     }
+    //     localStorage.setItem('itms', JSON.stringify(itms))
+    // }
 
-    const addItem = () => {
-        const newItem = item
-        const itms = getItemsFromLS()
-        const newItems = [...itms, newItem]
-        setItems(newItems)
-        console.log(items)
-        return newItem
-    }
-    const deleteItemFromLS = (key) => {
-        const itms = getItemsFromLS();
-        itms.forEach((item, index) => {
-            if(item.key === key){
-                itms.splice(index,1);
-            }
-        });
-        localStorage.setItem('itms', JSON.stringify(itms));
-    }
+    // const addItem = () => {
+    //     // append the item to add a property of quantity
+    //     const newItem = Object.assign(item, {quantity : 1})
+    //     console.log(newItem)
+    //     const itms = getItemsFromLS()
+    //     const newItems = [...itms, newItem]
+    //     setItems(newItems)
+    //     console.log(items)
+    //     return newItem
+    // }
 
+    // const setUpdate = (qty, id) => {
+    //     const updated_items = items;
+    //     // loop through items
+    //     updated_items.map(item => {
+    //         if(item.id === id){
+    //             item.quantity = qty;
+    //         }
+    //     })
+    //     setItems(updated_items)
+    //     updateLS(qty, id);
+    // }
+
+    // const updateLS = (qty, id) => {
+    //     const itms = getItemsFromLS();
+    //     itms.map(item => {
+    //         if(item.id === id){
+    //             item.quantity = qty;
+    //         }
+    //         localStorage.setItem('itms', JSON.stringify(itms))
+    //     })
+    // }
+    // const deleteItemFromLS = (id) => {
+    //     const itms = getItemsFromLS();
+    //     itms.forEach((item, index) => {
+    //         if(item.id === id){
+    //             itms.splice(index,1);
+    //         }
+    //     });
+    //     localStorage.setItem('itms', JSON.stringify(itms));
+    // }
+
+    // const deleteItem = (id) => {
+    //     const filteredItems = items.filter(item => item.id !== id)
+    //     setItems(filteredItems)
+    //    deleteItemFromLS(id);
+    // }
+
+    // const generateMessage = () => {
+    //     const items = getItemsFromLS()
+    //     if(items !== [])
+    //     {
+    //         setMsg('Item has been successfully added to your cart.')
+    //     }
+    //     else {
+    //         setMsg('Your cart is empty now.')
+    //     }
+    // }
     const showSizeChart = () => {
         showSzChart(true)
     }
@@ -77,11 +128,28 @@ function Item({match}) {
         showSzChart(false)
     }
 
-    const showTheCart = () => {
+    const showTheCart = (e) => {
         showCart(true)
-        // setPrice(parseInt(item.price))
-        addItemtoLS()
-       // addItem()
+        const id = e.target.id
+        
+        let alreadyExists = false
+        const itms = context.getItemsFromLS();
+        console.log(itms)
+        itms.forEach(item => {
+            if(item.id === id)
+            {
+                const quantity = item.quantity
+                context.setUpdate(quantity+1, id)
+                alreadyExists = true
+                const updated_items = context.getItemsFromLS()
+                context.setItems(updated_items)
+            }
+        })
+        if(alreadyExists === false)
+        {
+            context.addItemtoLS()
+        }
+        //generateMessage()
     }
 
     const onCloseCart = () => {
@@ -121,7 +189,7 @@ function Item({match}) {
                         <h5 className = 'responsive-content-description'>{item.description}</h5>
                         <br></br>
                         <Link to = {`/${item.id}`}>
-                            <button className = 'btn responsive-content-item btn-item' onClick = {showTheCart}>Add To Cart</button>
+                            <button id = {item.id} className = 'btn responsive-content-item btn-item' onClick = {showTheCart}>Add To Cart</button>
                         </Link>
 
                         <br></br>
@@ -133,7 +201,11 @@ function Item({match}) {
                         }
 
                         {
-                            cart ? <CartContainer item = {item} items = {items} onCloseCart = {onCloseCart}/> : ''
+                            cart ? 
+                            //  <qtyContext.Provider value = {{quantity : quantity, setQuantity : setQuantity}}>
+                            <CartContainer onCloseCart = {onCloseCart}/> 
+                            //  </qtyContext.Provider>
+                            : ''
                         }
 
                         {

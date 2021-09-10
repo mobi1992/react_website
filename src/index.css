@@ -150,7 +150,19 @@ code {
   padding-left: 5px;
 }
 
-.cart-price-padding {
-  padding-bottom: 2vh;
+
+
+.btn-inc-dec {
+  padding-top : 1vh;
+  padding-bottom : 1vh;
+  padding-left : 2vh;
+  padding-right : 2vh;
 }
 
+.btn-cross {
+  padding-top : 0vh;
+  padding-bottom : 0vh;
+  padding-left : 1vh;
+  padding-right : 1vh;
+  border-radius: 5vh;
+}

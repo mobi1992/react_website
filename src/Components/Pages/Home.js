@@ -38,7 +38,11 @@ function Home() {
 
     return (
         
-                <div>
+                <div style = {{
+                    width : '100%',
+                    height : '400%',
+                    // backgroundImage : `url(${carousel3})`
+                }}>
                 <h1 className = 'mt-3'>Home page</h1>
 
                 <div id="demo" class="carousel slide" data-ride="carousel">

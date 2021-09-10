@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/fontawesome-free-solid'
 import { itemContext } from '../ParentComponent';
-function Cart({item, cal_total}) {
+function MainCart({item, cal_total}) {
     const context = useContext(itemContext)
     const priceStyle = {
         color : '#5b18b0',
@@ -35,22 +35,23 @@ function Cart({item, cal_total}) {
         }
     }
 
-    // const handleChange = (e) => {
-    //     setQuantity(parseInt(e.target.value))
-    //     //setUpdate(quantity, item.id)
-    //     console.log(quantity)
-    //     console.log('input handle change')
+    const handleChange = (e) => {
+        setQuantity(parseInt(e.target.value))
+        //setUpdate(quantity, item.id)
+        console.log(quantity)
+        console.log('input handle change')
 
-    //     if(isNaN(parseInt(e.target.value)))
-    //     {
-    //         setQuantity('')
-    //     }
-    //     else {
-    //         onChange(true)
-    //     }
-    // }
+        if(isNaN(parseInt(e.target.value)))
+        {
+            setQuantity('')
+        }
+        else {
+            onChange(true)
+            window.location.reload(true)
+        }
+    }
 
-    // // Total will be calculates with input when we click on the update cart button
+    // Total will be calculates with input when we click on the update cart button
     // const onClick = () => {
     //     if(change)
     //     // whenever an item is added in the cart, the initail quantity is 1 and the total price is calculated at every step, so when we change the input and enter something, item.price needs to be subtracted from the answer as it is already added that to total price before...
@@ -94,6 +95,9 @@ function Cart({item, cal_total}) {
             }
         )
     }, [])
+
+    // const update_cart = () => {
+    // }
     return (
         <div>
                                 <div class="row border-top border-bottom">
@@ -122,7 +126,7 @@ function Cart({item, cal_total}) {
                                                 <div class="input-group-prepend">
                                                     <button class="btn btn-outline-secondary responsive-content-item btn-inc-dec" type="button" onClick = {decrementQuantity}>-</button>
                                                 </div>
-                                                <input type='text' class="text-center form-control" value = {quantity}/>
+                                                <input type='text' class="text-center form-control" value = {quantity} onChange = {handleChange}/>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary responsive-content-item btn-inc-dec" type="button" onClick = {incrementQuantity}>+</button>
                                                 </div>
@@ -136,7 +140,7 @@ function Cart({item, cal_total}) {
                                     </div>
                                     {/* <div className = 'row main align-items-center'>
                                         <div className = 'col-12'>
-                                            <button className = 'btn responsive-content-item btn-dark text-white' onClick = {onClick}>Update Cart</button>
+                                            <button className = 'btn responsive-content-item btn-dark text-white' onClick = {update_cart}>Update Cart</button>
                                         </div>
                                     </div> */}
                                 </div>
@@ -144,4 +148,4 @@ function Cart({item, cal_total}) {
     )
 }
 
-export default Cart
+export default MainCart

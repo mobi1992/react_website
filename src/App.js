@@ -1,9 +1,9 @@
 import './App.css';
-import Routes from './Components/Routes'
+import ParentComponent from './Components/ParentComponent';
 function App() {
   return (
     <div className="App">
-      <Routes />
+      <ParentComponent />
     </div>
   );
 }
